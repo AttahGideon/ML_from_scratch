@@ -7,7 +7,9 @@ distances = torch.tensor([[1.0], [2.0], [3.0], [4.0]], dtype = torch.float32)
 
 times = torch.tensor([[6.96], [12.11], [16.71], [22.21]], dtype = torch.float32)
 
-model = nn.Sequential(nn.Linear(1, 1))
+model = nn.Sequential(nn.Linear(1, 3),
+                     nn.ReLU(),
+                     nn.Linear(3, 1))
 loss_function = nn.MSELoss()
 optimizer = optim.SGD(model.parameters(), lr =0.01)
 
@@ -23,6 +25,8 @@ for epoch in range(500):
     loss.backward()
     #update weights
     optimizer.step()
+    if (epoch + 1) % 50 == 0:
+        print(f"Epoch {epoch + 1}: Loss = {loss.item()}")
 
 
 with torch.no_grad():
